@@ -1,0 +1,60 @@
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="me.garybrady.geocall.MapsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set Alarm"
+
+            android:id="@+id/bSetGeofence"
+            android:alpha="0.95"/>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10px">
+
+
+    <!--<Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/swRadius"
+        android:textOff="M"
+        android:textOn="KM"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvRadius"
+        android:layout_above="@+id/sbRadius"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+       <!--  android:textSize="21dp"
+        android:textColor="@android:color/black"-->
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sbRadius"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        >
+
+    </SeekBar>
+    </RelativeLayout>
+    </fragment>
