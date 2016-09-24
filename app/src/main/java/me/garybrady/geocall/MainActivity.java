@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         btToggle = (Button) findViewById(R.id.btSetNumber);
         //btDisable = (Button) findViewById(R.id.btDisable);
         btStatus = (Button) findViewById(R.id.btStatus);
+        btGeo = (Button) findViewById(R.id.btGeo);
         //ivToggle = (ImageView) findViewById(R.id.ivToggle);
         //ivToggle.setColorFilter(Color.rgb(76,175,80));
 
@@ -122,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 startActivity(intentCallForward);
 
+            }
+        });
+
+        btGeo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iGeo = new Intent(MainActivity.this, dummyGeo.class);
+                startActivity(iGeo);
             }
         });
     }

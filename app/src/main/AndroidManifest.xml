@@ -54,6 +54,9 @@
         </receiver>
 
 
+        <service android:name=".GeofenceTransitionsIntentService"/>
+
+
 
         <activity android:name=".dummyGeo"></activity>
     </application>
