@@ -84,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
             btToggle.setText("Off");
         }
 
+        String PN = settings.getString("PhoneNumber","0");
+        Toast.makeText(this, PN, Toast.LENGTH_SHORT).show();
+        if(PN.equals("0")){
+            etPhone.setHint("Phone Number please");
+        }else{
+            etPhone.setText(PN);
+        }
+
 /*        ivToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
         btGeo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editor = settings.edit();
+                editor.putString("PhoneNumber", etPhone.getText().toString());
+                // Commit the edits!
+                editor.commit();
                 Intent iGeo = new Intent(MainActivity.this, dummyGeo.class);
                 startActivity(iGeo);
             }

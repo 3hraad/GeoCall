@@ -61,11 +61,21 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
     private Button mAddGeofencesButton;
     private Button mRemoveGeofencesButton;
 
+    Bundle pass;
+    double rec_lat = 0, rec_lng = 0;
+    float rec_rad = 5000;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dummy_geo);
-
+        pass = getIntent().getExtras();
+        if (pass!=null){
+            rec_lat = pass.getDouble("lat");
+            rec_lng = pass.getDouble("lng");
+            rec_rad = (float) pass.getDouble("radius");
+            Toast.makeText(dummyGeo.this,"lat: " + rec_lat + " lng: " + rec_lng + " Rad: "+ rec_rad,Toast.LENGTH_SHORT).show();
+            //LatLng latLng = new LatLng(rec_lat, rec_lng);
+        }
         // Get the UI widgets.
         mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
         mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
@@ -113,6 +123,7 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
         super.onStop();
         mGoogleApiClient.disconnect();
     }
+
 
     /**
      * Runs when a GoogleApiClient object successfully connects.
@@ -268,23 +279,23 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
      * the user's location.
      */
     public void populateGeofenceList() {
-        for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
+        //for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
 
             mGeofenceList.add(new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this
                     // geofence.
-                    .setRequestId(entry.getKey())
+                    .setRequestId("Geofence1")
 
                     // Set the circular region of this geofence.
                     .setCircularRegion(
-                            entry.getValue().latitude,
-                            entry.getValue().longitude,
-                            Constants.GEOFENCE_RADIUS_IN_METERS
+                            rec_lat,
+                            rec_lng,
+                            rec_rad
                     )
 
                     // Set the expiration duration of the geofence. This geofence gets automatically
                     // removed after this period of time.
-                    .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
 
                     // Set the transition types of interest. Alerts are only generated for these
                     // transition. We track entry and exit transitions in this sample.
@@ -293,7 +304,7 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
 
                     // Create the geofence.
                     .build());
-        }
+        //}
     }
 
     /**
