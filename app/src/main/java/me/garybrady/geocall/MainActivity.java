@@ -112,7 +112,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         btStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
+            }
+        });
+/*        btStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String callForwardString = "*#21#";
@@ -132,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentCallForward);
 
             }
-        });
+        });*/
 
         btGeo.setOnClickListener(new View.OnClickListener() {
             @Override

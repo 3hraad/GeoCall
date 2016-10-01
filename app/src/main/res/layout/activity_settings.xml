@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/etPhoneNumber"
         android:layout_below="@+id/textView2"
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
@@ -26,14 +26,14 @@
         android:layout_height="wrap_content"
         android:text="Phone Number"
         android:id="@+id/textView2"
-        android:layout_below="@+id/switch1"
-        android:layout_toRightOf="@+id/switch1"
-        android:layout_toEndOf="@+id/switch1" />
+        android:layout_below="@+id/swCall"
+        android:layout_toRightOf="@+id/swCall"
+        android:layout_toEndOf="@+id/swCall" />
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switch1"
+        android:id="@+id/swCall"
         android:layout_below="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:text="Enable  Call Forwarding"
         android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/swGeo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -52,14 +52,14 @@
         android:layout_height="wrap_content"
         android:text="Enable  Text Forwarding"
         android:id="@+id/textView4"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/etPhoneNumber"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switch2"
+        android:id="@+id/swText"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -69,19 +69,36 @@
         android:layout_height="wrap_content"
         android:text="Email Address"
         android:id="@+id/textView5"
-        android:layout_below="@+id/switch2"
-        android:layout_toRightOf="@+id/switch2"
-        android:layout_toEndOf="@+id/switch2" />
+        android:layout_below="@+id/swText"
+        android:layout_toRightOf="@+id/swText"
+        android:layout_toEndOf="@+id/swText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/etEmail"
         android:layout_below="@+id/textView5"
         android:layout_alignLeft="@+id/textView5"
         android:layout_alignStart="@+id/textView5"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_alignRight="@+id/etPhoneNumber"
+        android:layout_alignEnd="@+id/etPhoneNumber" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Access Location"
+        android:id="@+id/textView6"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/swGeo"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
