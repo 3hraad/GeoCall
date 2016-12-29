@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -77,8 +78,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @SuppressWarnings("unused")
     private static final String LOGTAG = "Maps";
     GoogleApiClient mGoogleApiClient;
-
-
+    public static final String PREFS_NAME = "MaPrefs";
+    SharedPreferences settings;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -384,7 +386,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle pass = new Bundle();
+                /*Bundle pass = new Bundle();
                 if(b!=null){
                     pass.putString("title",b.getString("title"));
                 }
@@ -394,6 +396,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //Intent i = new Intent(MapsActivity.this,GeofenceConstruct.class);
                 Intent i = new Intent(MapsActivity.this,dummyGeo.class);
                 i.putExtras(pass);
+                startActivity(i);*/
+                settings = getSharedPreferences(PREFS_NAME, 0);
+
+                editor = settings.edit();
+                editor.putBoolean("GeoExists",true);
+                editor.putLong("lat", Double.doubleToRawLongBits(marker.getPosition().latitude));
+                editor.putLong("lng", Double.doubleToRawLongBits(marker.getPosition().longitude));
+                editor.putLong("radius", Double.doubleToRawLongBits(circle.getRadius()));
+
+                // Commit the edits!
+                editor.commit();
+                Intent i = new Intent(MapsActivity.this,dummyGeo.class);
+
                 startActivity(i);
                 finish();
             }

@@ -79,7 +79,8 @@ public class Home extends AppCompatActivity {
         LocationSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                init();
+                Intent i = new Intent(Home.this, MapsActivity.class);
+                startActivity(i);
             }
         });
 

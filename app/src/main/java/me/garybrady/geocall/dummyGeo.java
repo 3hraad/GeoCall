@@ -64,18 +64,25 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
     Bundle pass;
     double rec_lat = 0, rec_lng = 0;
     float rec_rad = 5000;
+    public static final String PREFS_NAME = "MaPrefs";
+    SharedPreferences settings;
+    SharedPreferences.Editor editor;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dummy_geo);
-        pass = getIntent().getExtras();
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        rec_lat = Double.longBitsToDouble(settings.getLong("lat", Double.doubleToLongBits(0)));
+        rec_lng = Double.longBitsToDouble(settings.getLong("lng", Double.doubleToLongBits(0)));
+        rec_rad = (float) Double.longBitsToDouble(settings.getLong("radius", Double.doubleToLongBits(0)));
+        Toast.makeText(dummyGeo.this,"lat: " + rec_lat + " lng: " + rec_lng + " Rad: "+ rec_rad,Toast.LENGTH_SHORT).show();
+        /*pass = getIntent().getExtras();
         if (pass!=null){
             rec_lat = pass.getDouble("lat");
             rec_lng = pass.getDouble("lng");
             rec_rad = (float) pass.getDouble("radius");
-            Toast.makeText(dummyGeo.this,"lat: " + rec_lat + " lng: " + rec_lng + " Rad: "+ rec_rad,Toast.LENGTH_SHORT).show();
             //LatLng latLng = new LatLng(rec_lat, rec_lng);
-        }
+        }*/
         // Get the UI widgets.
         mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
         mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
