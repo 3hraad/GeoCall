@@ -67,6 +67,7 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
     public static final String PREFS_NAME = "MaPrefs";
     SharedPreferences settings;
     SharedPreferences.Editor editor;
+    Boolean creating = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,17 +76,18 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
         rec_lat = Double.longBitsToDouble(settings.getLong("lat", Double.doubleToLongBits(0)));
         rec_lng = Double.longBitsToDouble(settings.getLong("lng", Double.doubleToLongBits(0)));
         rec_rad = (float) Double.longBitsToDouble(settings.getLong("radius", Double.doubleToLongBits(0)));
-        Toast.makeText(dummyGeo.this,"lat: " + rec_lat + " lng: " + rec_lng + " Rad: "+ rec_rad,Toast.LENGTH_SHORT).show();
-        /*pass = getIntent().getExtras();
+//        Toast.makeText(dummyGeo.this,"lat: " + rec_lat + " lng: " + rec_lng + " Rad: "+ rec_rad,Toast.LENGTH_SHORT).show();
+        pass = getIntent().getExtras();
         if (pass!=null){
-            rec_lat = pass.getDouble("lat");
-            rec_lng = pass.getDouble("lng");
-            rec_rad = (float) pass.getDouble("radius");
-            //LatLng latLng = new LatLng(rec_lat, rec_lng);
-        }*/
+            creating = pass.getBoolean("create");
+
+        }else {
+            Toast.makeText(this, "Cannot determine whether a geofence should be created or destroyed", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         // Get the UI widgets.
-        mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
-        mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
+        //mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
+        //mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
 
         // Empty list for storing geofences.
         mGeofenceList = new ArrayList<Geofence>();
@@ -99,13 +101,15 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
 
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
         mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
-        setButtonsEnabledState();
+        //setButtonsEnabledState();
 
         // Get the geofences used. Geofence data is hard coded in this sample.
         populateGeofenceList();
 
         // Kick off the request to build GoogleApiClient.
         buildGoogleApiClient();
+
+
     }
 
     /**
@@ -138,6 +142,7 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Connected to GoogleApiClient");
+        createOrDestroy();
     }
 
     @Override
@@ -174,53 +179,9 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
         return builder.build();
     }
 
-    /**
-     * Adds geofences, which sets alerts to be notified when the device enters or exits one of the
-     * specified geofences. Handles the success or failure results returned by addGeofences().
-     */
-    public void addGeofencesButtonHandler(View view) {
-        if (!mGoogleApiClient.isConnected()) {
-            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        try {
-            LocationServices.GeofencingApi.addGeofences(
-                    mGoogleApiClient,
-                    // The GeofenceRequest object.
-                    getGeofencingRequest(),
-                    // A pending intent that that is reused when calling removeGeofences(). This
-                    // pending intent is used to generate an intent when a matched geofence
-                    // transition is observed.
-                    getGeofencePendingIntent()
-            ).setResultCallback(this); // Result processed in onResult().
-        } catch (SecurityException securityException) {
-            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
-            logSecurityException(securityException);
-        }
-    }
 
-    /**
-     * Removes geofences, which stops further notifications when the device enters or exits
-     * previously registered geofences.
-     */
-    public void removeGeofencesButtonHandler(View view) {
-        if (!mGoogleApiClient.isConnected()) {
-            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        try {
-            // Remove geofences.
-            LocationServices.GeofencingApi.removeGeofences(
-                    mGoogleApiClient,
-                    // This is the same pending intent that was used in addGeofences().
-                    getGeofencePendingIntent()
-            ).setResultCallback(this); // Result processed in onResult().
-        } catch (SecurityException securityException) {
-            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
-            logSecurityException(securityException);
-        }
-    }
+
 
     private void logSecurityException(SecurityException securityException) {
         Log.e(TAG, "Invalid location permission. " +
@@ -247,7 +208,7 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
 
             // Update the UI. Adding geofences enables the Remove Geofences button, and removing
             // geofences enables the Add Geofences button.
-            setButtonsEnabledState();
+            //setButtonsEnabledState();
 
             Toast.makeText(
                     this,
@@ -255,6 +216,7 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
                             R.string.geofences_removed),
                     Toast.LENGTH_SHORT
             ).show();
+            finish();
         } else {
             // Get the status code for the error and log it using a user-friendly message.
             String errorMessage = GeofenceErrorMessages.getErrorString(this,
@@ -326,6 +288,52 @@ public class dummyGeo extends AppCompatActivity implements GoogleApiClient.Conne
         } else {
             mAddGeofencesButton.setEnabled(true);
             mRemoveGeofencesButton.setEnabled(false);
+        }
+    }
+
+    private void createOrDestroy(){
+        if (creating){
+            //create geofence
+            Toast.makeText(dummyGeo.this,"creating",Toast.LENGTH_SHORT).show();
+
+            if (!mGoogleApiClient.isConnected()) {
+                Toast.makeText(this, getString(R.string.not_connected) + "1", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            try {
+                LocationServices.GeofencingApi.addGeofences(
+                        mGoogleApiClient,
+                        // The GeofenceRequest object.
+                        getGeofencingRequest(),
+                        // A pending intent that that is reused when calling removeGeofences(). This
+                        // pending intent is used to generate an intent when a matched geofence
+                        // transition is observed.
+                        getGeofencePendingIntent()
+                ).setResultCallback(this); // Result processed in onResult().
+            } catch (SecurityException securityException) {
+                // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+                logSecurityException(securityException);
+            }
+        }else{
+            //deleting geofence
+            Toast.makeText(dummyGeo.this,"deleting",Toast.LENGTH_SHORT).show();
+
+            if (!mGoogleApiClient.isConnected()) {
+                Toast.makeText(this, getString(R.string.not_connected) + "2", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                // Remove geofences.
+                LocationServices.GeofencingApi.removeGeofences(
+                        mGoogleApiClient,
+                        // This is the same pending intent that was used in addGeofences().
+                        getGeofencePendingIntent()
+                ).setResultCallback(this); // Result processed in onResult().
+            } catch (SecurityException securityException) {
+                // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+                logSecurityException(securityException);
+            }
         }
     }
 }

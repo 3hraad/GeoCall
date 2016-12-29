@@ -407,9 +407,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 // Commit the edits!
                 editor.commit();
-                Intent i = new Intent(MapsActivity.this,dummyGeo.class);
 
-                startActivity(i);
                 finish();
             }
         });

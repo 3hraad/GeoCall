@@ -25,11 +25,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 public class Home extends AppCompatActivity {
     CheckBox PermGrant, PhoneSet, LocationSet;
     SeekBar EnableGeo;
-    TextView tvOn, tvOff;
+    TextView tvOn, tvOff, tvStatus;
     SharedPreferences settings;
     SharedPreferences.Editor editor;
+    Bundle pass;
     public static final String PREFS_NAME = "MaPrefs";
-
+    private SharedPreferences mSharedPreferences;
 
 
     @Override
@@ -48,6 +49,8 @@ public class Home extends AppCompatActivity {
     }
 
     private void init() {
+
+
         //Checking Phone number
         PhoneSet = (CheckBox) findViewById(R.id.cbPhoneNum);
         PhoneSet.setChecked(checkPhoneNumber());
@@ -85,34 +88,56 @@ public class Home extends AppCompatActivity {
         });
 
         //Enable GeoCall
+        pass = new Bundle();
+        EnableGeo = (SeekBar) findViewById(R.id.sbEnableGeoCall);
         tvOff = (TextView) findViewById(R.id.tvOff);
         tvOn = (TextView) findViewById(R.id.tvOn);
-        EnableGeo = (SeekBar) findViewById(R.id.sbEnableGeoCall);
+        mSharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME,
+                MODE_PRIVATE);
+        if (mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false)){
+            tvOn.setClickable(false);
+            tvOff.setClickable(true);
+
+            EnableGeo.setProgress(78);
+        }else{
+            tvOff.setClickable(false);
+            tvOn.setClickable(true);
+            EnableGeo.setProgress(22);
+        }
         EnableGeo.setEnabled(false);
-        if (checkCriteria()){
+        /*if (checkCriteria()){
             EnableGeo.setProgress(78);
         }else{
             EnableGeo.setProgress(22);
-        }
+        }*/
 
         tvOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EnableGeo.setProgress(22);
+                pass.putBoolean("create", false);
+                Intent i = new Intent(Home.this,dummyGeo.class);
+                i.putExtras(pass);
+                startActivity(i);
             }
         });
 
         tvOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkCriteria()){
-                    EnableGeo.setProgress(78);
-                }else{
-                    EnableGeo.setProgress(22);
-                }
+                pass.putBoolean("create", true);
+                Intent i = new Intent(Home.this,dummyGeo.class);
+                i.putExtras(pass);
+                startActivity(i);
             }
         });
 
+        //test output
+        tvStatus = (TextView) findViewById(R.id.tvStatus);
+        if (mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false)){
+            tvStatus.setText("true");
+        }else{
+            tvStatus.setText("false");
+        }
 
     }
 
