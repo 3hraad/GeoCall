@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="54sp"
+        android:textColor="#ffffff"
+        android:text="Welcome"
+        android:gravity="center"
+        android:id="@+id/textView7" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
+        android:text="to GeoCall"
+        android:gravity="center"
+        android:id="@+id/textView8" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:text="Forward all your calls based on your location"
+        android:gravity="center"
+        android:id="@+id/textView9" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:text="Number"
+        android:gravity="center"
+        android:id="@+id/tvIntroNum" />
+</LinearLayout>

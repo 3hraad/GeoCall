@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 /*import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;*/
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
+        //ApplicationIntro();
+        //Intent i = new Intent(MainActivity.this, IntroActivity.class);
+        //startActivity(i);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        assert fab != null;
@@ -153,6 +157,41 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(iGeo);
             }
         });
+    }
+
+    private void ApplicationIntro() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                    startActivity(i);
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("firstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
+
     }
 
 

@@ -33,4 +33,5 @@ dependencies {
     compile 'pl.charmas.android:android-reactive-location:0.9@aar'
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'io.reactivex:rxandroid:0.25.0'
+    compile 'com.github.paolorotolo:appintro:4.1.0'
 }

@@ -3,6 +3,7 @@ package me.garybrady.geocall;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
@@ -11,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -21,7 +23,11 @@ public class SettingsActivity extends AppCompatActivity {
             MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION=35,
             MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=36;
     EditText etPhone, etEmail;
+    Button SaveSettings;
     Switch swCallForward, swTextForward, swGeo;
+    SharedPreferences settings;
+    SharedPreferences.Editor editor;
+    public static final String PREFS_NAME = "MaPrefs";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +86,25 @@ public class SettingsActivity extends AppCompatActivity {
         swGeo= (Switch) findViewById(R.id.swGeo);
         swCallForward = (Switch) findViewById(R.id.swCall);
         swTextForward = (Switch) findViewById(R.id.swText);
+        SaveSettings = (Button) findViewById(R.id.btSaveSettings);
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        String PN = settings.getString("PhoneNumber","");
+        if(PN.equals("")){
+            etPhone.setHint("Phone Number please");
+        }else{
+            etPhone.setText(PN);
+        }
+
+        SaveSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor = settings.edit();
+                editor.putString("PhoneNumber", etPhone.getText().toString());
+                // Commit the edits!
+                editor.commit();
+                finish();
+            }
+        });
         initSwitches();
 
     }

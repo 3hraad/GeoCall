@@ -32,8 +32,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
-            android:label="titile">
+            android:name=".Home"
+            android:label="Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,7 +56,18 @@
         <service android:name=".GeofenceTransitionsIntentService" />
 
         <activity android:name=".dummyGeo" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".IntroActivity" />
+        <activity android:name=".MainActivity" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".ForwardDetails"></activity>
     </application>
 
 </manifest>
